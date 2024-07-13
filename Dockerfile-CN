@@ -1,0 +1,22 @@
+FROM docker.local.zkgame.net/python:3.12-slim
+
+ENV LANG=C.UTF-8 TZ=Asia/Shanghai
+
+MAINTAINER dairoot
+
+# 更新源
+RUN sed -i "s@http://deb.debian.org@https://mirrors.cloud.tencent.com@g" /etc/apt/sources.list.d/debian.sources
+
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential xvfb xauth python3-tk python3-dev gnome-screenshot tesseract-ocr
+WORKDIR /app
+
+COPY ./requirements.txt requirements.txt
+
+ENV PIP_INDEX_URL=https://mirrors.tencent.com/pypi/simple
+ENV PIP_TRUSTED_HOST=mirrors.tencent.com
+
+RUN pip install -U pip && pip install -r requirements.txt
+
+RUN playwright install chrome
+
+COPY . .

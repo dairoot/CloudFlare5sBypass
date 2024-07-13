@@ -1,0 +1,11 @@
+services:
+  web:
+    build:
+      context: .
+    image: dairoot/cloudflare5sbypass:latest
+    volumes:
+      - ./:/app
+    restart: always
+    command: uvicorn app:app --host=0.0.0.0 --port 8000
+    ports:
+      - "50005:8000"
