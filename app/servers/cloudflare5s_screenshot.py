@@ -86,7 +86,7 @@ class Cloudflare5sScreenshotBypass:
     async def get_cf_cookie(self, url, debug=False):
 
         self.driver.set.cookies.clear()
-        self.driver.new_tab(url)
+        self.driver.get(url)
         print(self.driver.user_agent)
         cookies = None
         await asyncio.sleep(5)
