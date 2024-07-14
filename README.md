@@ -1,10 +1,15 @@
 # CloudFlare 5s 盾 绕过
 
 ## 本地运行
+- 需要安装 `tesseract-ocr`
 ```bash
 pip install -r requirements.txt
 
 uvicorn app:app --host=0.0.0.0 --reload
+
+# 运行测试用例
+python tests/test_v1.py
+python tests/test_v2.py
 ```
 
 ## docker 运行方式
@@ -17,6 +22,10 @@ docker build -t dairoot/cloudflare5sbypass -f Dockerfile-CN .
 
 # 运行
 docker compose up
+
+# 运行测试用例
+docker compose run web python tests/test_v1.py
+docker compose run web python tests/test_v2.py
 ```
 
 ## 获取 cloudflare 5s 盾 cf_clearance 值
@@ -52,5 +61,3 @@ docker compose up
 ## 注意事项
 如果不使用代理服务器（proxy_server），则必须将该项目部署在需要绕过 Cloudflare 5s 盾的服务器上。否则，即使获取到 cf_clearance 值，也将无法适用。
 
-
-## 致谢

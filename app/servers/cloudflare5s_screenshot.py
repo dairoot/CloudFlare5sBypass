@@ -3,13 +3,12 @@ import os
 from datetime import datetime
 
 from DrissionPage import ChromiumOptions, ChromiumPage
-from app.const import DefaultUserAgent, IS_LINUX
+from app.const import DefaultUserAgent, IS_LINUX, IS_MAC
 from app.servers import get_click_xy
 from app.utils import check_path
 
-r = 2  # 苹果分辨率需要除 2
-if IS_LINUX:
-    r = 1
+# 苹果分辨率需要除 2
+r = 2 if IS_MAC else 1
 
 file_path = "images"
 check_path(file_path)
@@ -61,13 +60,11 @@ class Cloudflare5sScreenshotBypass:
         options.headless(False)
 
         self.driver = ChromiumPage(addr_or_opts=options)
-        print("self.driver.rect.page_location", self.driver.rect.page_location)
 
     async def bypass(self):
         import pyautogui
 
-        print("Verification page detected.  ", self.driver.title)
-        print(self.driver.cookies())
+        print(self.tag.cookies())
         # 截取整个屏幕的截图
         screenshot = pyautogui.screenshot()
         file_name = datetime.now().strftime("%Y%m%d.%H_%M_%S")
@@ -79,31 +76,34 @@ class Cloudflare5sScreenshotBypass:
             pyautogui.click()
             await asyncio.sleep(5)
 
-        for line in self.driver.cookies():
+        for line in self.tag.cookies():
             if line["name"] == "cf_clearance":
-                return {"user_agent": self.driver.user_agent, "cookies": self.driver.cookies()}
+                return self.tag.cookies()
 
     async def get_cf_cookie(self, url, debug=False):
 
         self.driver.set.cookies.clear()
-        self.driver.new_tab(url)
-        print(self.driver.user_agent)
+        tab_id = self.driver.new_tab(url).tab_id
+        self.tag = self.driver.get_tab(tab_id)
+        print("self.tag.rect.page_location", self.tag.rect.page_location)
+
+        print(self.tag.user_agent)
         cookies = None
         await asyncio.sleep(5)
         for _ in range(10):
-            print("Verification page detected.  ", self.driver.title)
+            print("Verification page detected.  ", self.tag.title)
             cookies = await self.bypass()
 
             if cookies:
                 break
             await asyncio.sleep(3)
 
-        result = {"user_agent": self.driver.user_agent, "cookies": cookies}
-        self.driver.close()
+        result = {"user_agent": self.tag.user_agent, "cookies": cookies}
+        self.tag.close()
 
         if not debug:
             command = f"rm -rf {file_path}/*"
             # 执行命令
             os.system(command)
 
-        return result
+        return result if cookies else None
