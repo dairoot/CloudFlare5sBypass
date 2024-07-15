@@ -2,11 +2,12 @@ from pydantic import Field, BaseModel, HttpUrl
 from pydantic import BaseModel, field_validator, ValidationError
 from typing import Any
 import re
+from app.const import DefaultUserAgent
 
 
 class CloudFlare5sQuerySchema(BaseModel):
     url: HttpUrl = Field(..., description="cloudflare 5s url")
-    # user_agent: str = Field(None, description="user_agent")
+    user_agent: str = Field(default=DefaultUserAgent, description="user_agent")
     # proxy_server: HttpUrl = Field(None, description="proxy server")
     proxy_server: str = Field(None, description="proxy server")
 

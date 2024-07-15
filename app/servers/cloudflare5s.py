@@ -13,7 +13,7 @@ class Cloudflare5sBypass(object):
         browser_path = "/usr/bin/google-chrome"
         options = ChromiumOptions()
         options.set_paths(browser_path=browser_path)
-        options.set_user_agent(DefaultUserAgent)
+        options.set_user_agent(user_agent)
         arguments = [
             "--accept-lang=en-US",
             "--no-first-run",

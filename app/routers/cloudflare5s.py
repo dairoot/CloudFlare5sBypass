@@ -12,7 +12,7 @@ router = APIRouter(tags=["cloudflare5s"], prefix="/cloudflare5s")
 @router.post("/bypass-v1", summary="cloudflare5s bypass")
 @cache_route(cache_time=600)
 async def bypass(query_params: CloudFlare5sQuerySchema, background_tasks: BackgroundTasks):
-    cloudflare5s = Cloudflare5sBypass(proxy_server=query_params.proxy_server)
+    cloudflare5s = Cloudflare5sBypass(user_agent=query_params.user_agent, proxy_server=query_params.proxy_server)
     cf_cookie = await cloudflare5s.get_cf_cookie(str(query_params.url))
     return cf_cookie
 
@@ -21,6 +21,7 @@ async def bypass(query_params: CloudFlare5sQuerySchema, background_tasks: Backgr
 @cache_route(cache_time=600)
 async def bypass_v2(query_params: CloudFlare5sQuerySchema, background_tasks: BackgroundTasks):
     url = str(query_params.url)
-    cloudflare5s = Cloudflare5sScreenshotBypass(query_params.proxy_server)
+    cloudflare5s = Cloudflare5sScreenshotBypass(user_agent=query_params.user_agent,
+                                                proxy_server=query_params.proxy_server)
     cf_cookie = await cloudflare5s.get_cf_cookie(url)
     return cf_cookie

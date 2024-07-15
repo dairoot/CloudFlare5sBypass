@@ -17,11 +17,15 @@ file_suffix = "png"
 
 
 class Cloudflare5sScreenshotBypass:
-    def __init__(self, proxy_server=None):
+    def __init__(self, user_agent=DefaultUserAgent, proxy_server=None):
         browser_path = "/usr/bin/google-chrome"
         options = ChromiumOptions()
         options.set_paths(browser_path=browser_path)
-        options.set_user_agent(DefaultUserAgent)
+        options.set_user_agent(user_agent)
+        if proxy_server:
+            print("proxy_server", proxy_server)
+            options.set_proxy(proxy_server)
+
         arguments = [
             "--accept-lang=en-US",
             "--no-first-run",
@@ -53,9 +57,6 @@ class Cloudflare5sScreenshotBypass:
         for argument in arguments:
             options.set_argument(argument)
 
-        if proxy_server:
-            print("proxy_server", proxy_server)
-            options.set_proxy(proxy_server)
 
         options.headless(False)
 
@@ -90,6 +91,7 @@ class Cloudflare5sScreenshotBypass:
         print(self.tag.user_agent)
         cookies = None
         await asyncio.sleep(5)
+        # self.tag.refresh()
         for _ in range(10):
             print("Verification page detected.  ", self.tag.title)
             cookies = await self.bypass()

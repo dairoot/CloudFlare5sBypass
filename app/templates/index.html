@@ -52,7 +52,7 @@
             $('#response').html("正在查询中，请稍候...");
             $.ajax({
                 type: 'POST',
-                url: '/cloudflare5s/bypass-v1', // 替换为实际的服务器端处理 URL
+                url: '/cloudflare5s/bypass-v2', // 替换为实际的服务器端处理 URL
                 data: JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function (response) {
