@@ -4,9 +4,10 @@ from fastapi.responses import JSONResponse
 
 from app.const import DefaultUserAgent, IS_LINUX
 from app.extensions.display import start_xvfb_display
-from app.routers import cloudflare5s
+from app.routers import cloudflare5s, index
 
 app = FastAPI()
+app.include_router(index.router)
 app.include_router(cloudflare5s.router)
 if IS_LINUX:
     start_xvfb_display()

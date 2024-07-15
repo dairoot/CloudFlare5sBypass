@@ -10,7 +10,7 @@ from app.servers.cloudflare5s_screenshot import Cloudflare5sScreenshotBypass
 # from
 url = "https://nopecha.com/demo/cloudflare"
 # url = 'https://chatgpt.com'
-proxy_server = "http://127.0.0.1:9999"
+# proxy_server = "http://45.127.248.127:5128"
 proxy_server = None
 cloudflare5s = Cloudflare5sScreenshotBypass(proxy_server)
 cf_cookie = asyncio.run(cloudflare5s.get_cf_cookie(url, debug=True))
