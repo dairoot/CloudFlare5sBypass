@@ -16,7 +16,7 @@ async def save_cache(cache_key, func, *args, cache_time, **kwargs):
 
 def check_valid(url, proxy_server):
     try:
-        requests.get(url, timeout=3, proxies={"http": proxy_server, "https": proxy_server})
+        requests.get(url, timeout=5, proxies={"http": proxy_server})
     except Exception as e:
         print(str(e))
         raise RequestValidationError({"message": "请检查代理地址跟目标地址是否可用"})
