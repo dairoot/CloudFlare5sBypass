@@ -21,6 +21,8 @@ class Cloudflare5sScreenshotBypass:
         browser_path = "/usr/bin/google-chrome"
         options = ChromiumOptions()
         options.set_paths(browser_path=browser_path)
+        # print("user_agent", user_agent)
+
         options.set_user_agent(user_agent)
         if proxy_server:
             print("proxy_server", proxy_server)
