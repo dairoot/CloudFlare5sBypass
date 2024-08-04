@@ -13,27 +13,22 @@ class Cloudflare5sBypass(object):
         browser_path = "/usr/bin/google-chrome"
         options = ChromiumOptions()
         options.set_paths(browser_path=browser_path)
-        options.set_user_agent(user_agent)
+        if user_agent:
+            options.set_user_agent(user_agent)
         arguments = [
-            "--accept-lang=en-US",
-            "--no-first-run",
-            "--force-color-profile=srgb",
-            "--metrics-recording-only",
-            "--password-store=basic",
-            "--use-mock-keychain",
-            "--export-tagged-pdf",
-            "--no-default-browser-check",
-            "--enable-features=NetworkService,NetworkServiceInProcess,LoadCryptoTokenExtension,PermuteTLSExtensions",
-            "--disable-gpu",
-            "--disable-infobars",  # 关闭菜单栏
-            "--disable-extensions",
-            "--disable-popup-blocking",
-            "--disable-background-mode",
-            "--disable-features=FlashDeprecationWarning,EnablePasswordsAccountStorage,PrivacySandboxSettings4",
-            "--deny-permission-prompts",
-            "--disable-suggestions-ui",
-            "--hide-crash-restore-bubble",
-            "--window-size=1920,1080",
+            "-no-first-run",
+            "-force-color-profile=srgb",
+            "-metrics-recording-only",
+            "-password-store=basic",
+            "-use-mock-keychain",
+            "-export-tagged-pdf",
+            "-no-default-browser-check",
+            "-disable-background-mode",
+            "-enable-features=NetworkService,NetworkServiceInProcess,LoadCryptoTokenExtension,PermuteTLSExtensions",
+            "-disable-features=FlashDeprecationWarning,EnablePasswordsAccountStorage",
+            "-deny-permission-prompts",
+            "-disable-gpu",
+            "-accept-lang=en-US",
         ]
 
         if IS_LINUX:
@@ -50,7 +45,7 @@ class Cloudflare5sBypass(object):
 
     async def bypass(self):
         print(self.tag.cookies())
-        ele_flag = "#turnstile-wrapper"
+        ele_flag = ".spacer"
         if self.tag.wait.ele_displayed(ele_flag, timeout=1.5):
             verify_element = self.tag.ele(ele_flag, timeout=2.5)
             if verify_element:
