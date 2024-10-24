@@ -29,7 +29,9 @@ def get_click_xy(image_path):
             x, y, w, h = cv2.boundingRect(contour)
             roi = gray[y : y + h, x : x + w]  # 提取轮廓区域
             text = pytesseract.image_to_string(roi)  #
+            # print("text", text)
             if "verify you are human" in text.lower():  # 检查是否包含目标文本
+                # print("大轮廓定位成功")
                 # print("text", x, y, w, h , text)
                 x, y, w, h = cv2.boundingRect(contour)
                 roi = gray[y : y + h, x : x + w]  # 提取大轮廓区域
@@ -39,9 +41,13 @@ def get_click_xy(image_path):
                 small_contours, _ = cv2.findContours(roi_edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
                 # 判断是否存在按钮
+                contour_xy.add((x, y, w, h))  # 大轮廓轮廓
+
                 for small_contour in small_contours:
                     small_area = cv2.contourArea(small_contour)
                     if 500 < small_area < 5000:  # 小轮廓的面积范围
+                        # print("小轮廓定位成功")
+
                         sx, sy, sw, sh = cv2.boundingRect(small_contour)
                         # print("texts", sx, sy, sw, sh)
                         scontour_xy.add((x + sx, y + sy, sw, sh))  # 小轮廓

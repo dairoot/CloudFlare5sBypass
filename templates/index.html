@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Page</title>
+</head>
+<body>
+    <h1>Debug Page</h1>
+    <ul>
+        {% for image in images %}
+            <li>
+                <p>{{ image }}</p> <!-- 显示文件名 -->
+                <img src="{{ url_for('static', filename='images/' + image) }}" alt="{{ image }}" width="800px">
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

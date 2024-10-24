@@ -9,10 +9,11 @@ from app.const import IS_LINUX
 class Cloudflare5sBypass(object):
     driver = None
 
-    def __init__(self, user_agent=DefaultUserAgent, proxy_server=None):
+    def __init__(self, user_agent=None, proxy_server=None):
         browser_path = "/usr/bin/google-chrome"
         options = ChromiumOptions()
         options.set_paths(browser_path=browser_path)
+        user_agent = user_agent or DefaultUserAgent
         if user_agent:
             options.set_user_agent(user_agent)
         arguments = [
