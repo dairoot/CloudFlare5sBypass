@@ -76,9 +76,10 @@ class Cloudflare5sScreenshotBypass:
         screenshot_path = f"{file_path}/{file_name}.{file_suffix}"
         screenshot.save(screenshot_path)
         for click_x, click_y in get_click_xy(screenshot_path):
-            pyautogui.moveTo(click_x / r, click_y / r, duration=0.5, tween=pyautogui.easeInElastic)
+            pyautogui.moveTo(click_x / r, click_y / r, duration=1, tween=pyautogui.easeInOutQuad)
+            await asyncio.sleep(0.5)
             pyautogui.click()
-            await asyncio.sleep(5)
+            await asyncio.sleep(3)
 
         for line in self.tag.cookies():
             if line["name"] == "cf_clearance":

@@ -58,7 +58,7 @@ def get_click_xy(image_path):
 
     for x, y, w, h in contour_xy:
         # 大轮廓中寻找点击位置（点击位置可在小轮廓外层）
-        click_x = x + random.randint(int(w * 0.05), int(w * 0.2))
+        click_x = x + random.randint(int(w * 0.06), int(w * 0.2))
         click_y = y + random.randint(int(h * 0.47), int(h * 0.53))
         cv2.circle(image, (click_x, click_y), 5, (0, 0, 255), -1)
         click_xy.add((click_x, click_y))

@@ -1,4 +1,4 @@
 __pycache__/
 images/
 cache_data/
-./remote_dev.sh
+remote_dev.sh
